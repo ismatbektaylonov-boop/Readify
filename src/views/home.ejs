@@ -1,0 +1,31 @@
+<%- include("includes/header", { pageTitle: "Bosh sahifa | MyLibrary", extraCss: "home", member }) %>
+
+<section class="hero">
+  <h1>Kutubxona va Kitob Ijara Tizimiga Xush Kelibsiz!</h1>
+  <p>Minglab kitoblar orasidan o'zingizga keraklisini toping va ijaraga oling.</p>
+  <a href="/products" class="btn btn-primary">Kitoblarni ko'rish</a>
+</section>
+
+<section class="featured-books">
+  <h2>Yangi qo'shilgan kitoblar</h2>
+  <div class="book-grid">
+    <% products.forEach(function(p) { %>
+      <div class="book-card">
+        <img src="<%= p.productImage %>" alt="<%= p.productName %>" />
+        <h3><%= p.productName %></h3>
+        <p class="author"><%= p.productAuthor %></p>
+        <p class="price"><%= p.productPrice %> so'm</p>
+        <a href="/products?search=<%= encodeURIComponent(p.productName) %>" class="btn btn-outline">Batafsil</a>
+      </div>
+    <% }); %>
+    <% if (products.length === 0) { %>
+      <p>Hozircha kitoblar mavjud emas.</p>
+    <% } %>
+  </div>
+</section>
+
+</main>
+<script src="/js/main.js"></script>
+<script src="/js/home.js"></script>
+</body>
+</html>

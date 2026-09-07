@@ -1,0 +1,11 @@
+.hero {
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  color: #fff;
+  padding: 60px 30px;
+  border-radius: 16px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+.hero h1 { font-size: 2rem; margin-bottom: 12px; }
+.hero p { margin-bottom: 20px; opacity: 0.9; }
+.featured-books h2 { margin-bottom: 10px; }

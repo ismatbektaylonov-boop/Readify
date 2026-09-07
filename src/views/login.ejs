@@ -1,0 +1,24 @@
+<%- include("includes/header", { pageTitle: "Kirish | MyLibrary", extraCss: "login", member }) %>
+
+<section class="auth-section">
+  <form id="loginForm" class="auth-form">
+    <h2>Tizimga kirish</h2>
+    <div id="formError" class="form-error" style="display:none;"></div>
+
+    <label for="memberNick">Login</label>
+    <input type="text" id="memberNick" name="memberNick" required placeholder="Login kiriting" />
+
+    <label for="memberPassword">Parol</label>
+    <input type="password" id="memberPassword" name="memberPassword" required placeholder="Parol kiriting" />
+
+    <button type="submit" class="btn btn-primary">Kirish</button>
+
+    <p class="auth-switch">Akkountingiz yo'qmi? <a href="/signup">Ro'yxatdan o'ting</a></p>
+  </form>
+</section>
+
+</main>
+<script src="/js/main.js"></script>
+<script src="/js/auth-nova.js"></script>
+</body>
+</html>

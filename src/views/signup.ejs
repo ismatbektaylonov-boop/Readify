@@ -1,0 +1,30 @@
+<%- include("includes/header", { pageTitle: "Ro'yxatdan o'tish | MyLibrary", extraCss: "signup", member }) %>
+
+<section class="auth-section">
+  <form id="signupForm" class="auth-form">
+    <h2>Ro'yxatdan o'tish</h2>
+    <div id="formError" class="form-error" style="display:none;"></div>
+
+    <label for="memberFullName">To'liq ism</label>
+    <input type="text" id="memberFullName" name="memberFullName" placeholder="Ism Familiya" />
+
+    <label for="memberNick">Login</label>
+    <input type="text" id="memberNick" name="memberNick" required placeholder="Login yarating" />
+
+    <label for="memberPhone">Telefon raqam</label>
+    <input type="text" id="memberPhone" name="memberPhone" required placeholder="+998901234567" />
+
+    <label for="memberPassword">Parol</label>
+    <input type="password" id="memberPassword" name="memberPassword" required placeholder="Parol yarating" />
+
+    <button type="submit" class="btn btn-primary">Ro'yxatdan o'tish</button>
+
+    <p class="auth-switch">Akkountingiz bormi? <a href="/login">Kiring</a></p>
+  </form>
+</section>
+
+</main>
+<script src="/js/main.js"></script>
+<script src="/js/signup.js"></script>
+</body>
+</html>

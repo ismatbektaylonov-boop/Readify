@@ -1,0 +1,50 @@
+<%- include("includes/header", { pageTitle: "Ijaralarim | MyLibrary", extraCss: "orders", member }) %>
+
+<section class="orders-page">
+  <% if (member.memberType === "ADMIN") { %>
+    <h1>📋 Kelib tushgan ijara so'rovlari (Admin)</h1>
+    <div class="filter-bar">
+      <select id="statusFilter">
+        <option value="">Barchasi</option>
+        <option value="PENDING">Kutilmoqda</option>
+        <option value="APPROVE">Tasdiqlangan</option>
+        <option value="REJECT">Rad etilgan</option>
+        <option value="RETURNED">Qaytarilgan</option>
+      </select>
+    </div>
+    <table class="orders-table" id="adminOrdersTable">
+      <thead>
+        <tr>
+          <th>Kitob</th>
+          <th>A'zo</th>
+          <th>Soni</th>
+          <th>Summasi</th>
+          <th>Holati</th>
+          <th>Amallar</th>
+        </tr>
+      </thead>
+      <tbody><!-- JS orqali to'ldiriladi --></tbody>
+    </table>
+  <% } else { %>
+    <h1>📚 Mening ijaralarim va so'rovlarim</h1>
+    <div class="filter-bar">
+      <select id="statusFilter">
+        <option value="">Barchasi</option>
+        <option value="PENDING">Kutilmoqda</option>
+        <option value="APPROVE">Hozir o'qiyapman</option>
+        <option value="REJECT">Rad etilgan</option>
+        <option value="RETURNED">Qaytargan</option>
+      </select>
+    </div>
+    <div class="orders-list" id="myOrdersList"><!-- JS orqali to'ldiriladi --></div>
+  <% } %>
+</section>
+
+</main>
+<script>
+  window.CURRENT_MEMBER_TYPE = "<%= member.memberType %>";
+</script>
+<script src="/js/main.js"></script>
+<script src="/js/orders.js"></script>
+</body>
+</html>

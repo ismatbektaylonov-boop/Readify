@@ -1,0 +1,16 @@
+.products-page h1 { margin-bottom: 16px; }
+.search-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.search-bar input { flex: 1; min-width: 220px; }
+.admin-panel {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.admin-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 12px; }
+.admin-form input, .admin-form select, .admin-form textarea {
+  padding: 9px 10px; border: 1px solid #d1d5db; border-radius: 8px;
+}
+.admin-form textarea { grid-column: 1 / -1; }
+.admin-form button { grid-column: 1 / -1; }
