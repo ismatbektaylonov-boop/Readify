@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html lang="uz">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= typeof pageTitle !== "undefined" ? pageTitle : "Kutubxona Tizimi" %></title>
+  <title>
+    <%= typeof pageTitle !=="undefined" ? pageTitle : "Kutubxona Tizimi" %>
+  </title>
   <link rel="stylesheet" href="/css/main.css" />
-  <% if (typeof extraCss !== "undefined") { %>
+  <% if (typeof extraCss !=="undefined" ) { %>
     <link rel="stylesheet" href="/css/<%= extraCss %>.css" />
-  <% } %>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <% } %>
+      <% if (typeof useDisplayFont !=="undefined" && useDisplayFont) { %>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet" />
+        <% } %>
+          <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
+
 <body>
   <header class="app-header">
     <div class="header-inner">
@@ -20,15 +31,17 @@
         <a href="/products">Kitoblar</a>
         <% if (member) { %>
           <a href="/orders">Mening ijaralarim</a>
-          <% if (member.memberType === "ADMIN") { %>
+          <% if (member.memberType==="ADMIN" ) { %>
             <span class="admin-badge">ADMIN</span>
-          <% } %>
-          <span class="member-name"><%= member.memberFullName || member.memberNick %></span>
-          <a href="#" id="logoutBtn">Chiqish</a>
-        <% } else { %>
-          <a href="/login">Kirish</a>
-          <a href="/signup">Ro'yxatdan o'tish</a>
-        <% } %>
+            <% } %>
+              <span class="member-name">
+                <%= member.memberFullName || member.memberNick %>
+              </span>
+              <a href="#" id="logoutBtn">Chiqish</a>
+              <% } else { %>
+                <a href="/login">Kirish</a>
+                <a href="/signup">Ro'yxatdan o'tish</a>
+                <% } %>
       </nav>
     </div>
   </header>

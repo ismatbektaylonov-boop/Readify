@@ -1,31 +1,79 @@
-<%- include("includes/header", { pageTitle: "Bosh sahifa | MyLibrary", extraCss: "home", member }) %>
+<%- include("includes/header", { pageTitle: "Bosh sahifa | MyLibrary" , extraCss: "home" , member, useDisplayFont: true
+  }) %>
 
-<section class="hero">
-  <h1>Kutubxona va Kitob Ijara Tizimiga Xush Kelibsiz!</h1>
-  <p>Minglab kitoblar orasidan o'zingizga keraklisini toping va ijaraga oling.</p>
-  <a href="/products" class="btn btn-primary">Kitoblarni ko'rish</a>
-</section>
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Har bir kitob<br />o'z navbatdagi<br />o'quvchisini kutmoqda.</h1>
+      <p class="hero-sub">
+        Ro'yxatdan o'ting, yoqqan kitobingizni tanlang va so'rov yuboring —
+        qolganini biz hal qilamiz.
+      </p>
+      <a href="/products" class="btn-hero">Javonlarni ko'rish</a>
+    </div>
 
-<section class="featured-books">
-  <h2>Yangi qo'shilgan kitoblar</h2>
-  <div class="book-grid">
-    <% products.forEach(function(p) { %>
-      <div class="book-card">
-        <img src="<%= p.productImage %>" alt="<%= p.productName %>" />
-        <h3><%= p.productName %></h3>
-        <p class="author"><%= p.productAuthor %></p>
-        <p class="price"><%= p.productPrice %> so'm</p>
-        <a href="/products?search=<%= encodeURIComponent(p.productName) %>" class="btn btn-outline">Batafsil</a>
+    <div class="hero-shelf">
+      <div class="shelf-books">
+        <% products.slice(0, 4).forEach(function(p, i) { %>
+          <img src="<%= p.productImage %>" alt="<%= p.productName %>" class="shelf-cover shelf-cover-<%= i %>" />
+          <% }); %>
       </div>
-    <% }); %>
-    <% if (products.length === 0) { %>
-      <p>Hozircha kitoblar mavjud emas.</p>
-    <% } %>
-  </div>
-</section>
+      <div class="shelf-ledge"></div>
+    </div>
+  </section>
 
-</main>
-<script src="/js/main.js"></script>
-<script src="/js/home.js"></script>
-</body>
-</html>
+  <section class="stats-strip">
+    <div class="stat">
+      <span class="stat-number">
+        <%= stats.totalBooks %>
+      </span>
+      <span class="stat-label">nomdagi kitob mavjud</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <span class="stat-number">
+        <%= stats.currentlyBorrowed %>
+      </span>
+      <span class="stat-label">nusxa hozir o'qilmoqda</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <span class="stat-number">
+        <%= stats.totalMembers %>
+      </span>
+      <span class="stat-label">a'zo ro'yxatdan o'tgan</span>
+    </div>
+  </section>
+
+  <section class="arrivals">
+    <div class="arrivals-head">
+      <h2>Yaqinda qo'shilgan</h2>
+      <a href="/products" class="arrivals-link">Barchasini ko'rish</a>
+    </div>
+
+    <div class="arrivals-shelf">
+      <div class="arrivals-row">
+        <% products.forEach(function(p) { %>
+          <a href="/products?search=<%= encodeURIComponent(p.productName) %>" class="arrival-book">
+            <img src="<%= p.productImage %>" alt="<%= p.productName %>" />
+            <span class="arrival-title">
+              <%= p.productName %>
+            </span>
+            <span class="arrival-author">
+              <%= p.productAuthor %>
+            </span>
+          </a>
+          <% }); %>
+            <% if (products.length===0) { %>
+              <p class="empty-note">Hozircha kitoblar mavjud emas.</p>
+              <% } %>
+      </div>
+      <div class="arrivals-ledge"></div>
+    </div>
+  </section>
+
+  </main>
+  <script src="/js/main.js"></script>
+  <script src="/js/home.js"></script>
+  </body>
+
+  </html>
