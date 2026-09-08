@@ -62,7 +62,9 @@ class MemberController {
 
   public signup = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const newMember = await authService.signup(req.body);
+      // Public registration must never be able to assign privileged roles.
+      const { memberType, ...signupInput } = req.body;
+      const newMember = await authService.signup(signupInput);
       res.status(HttpCode.CREATED).json({ success: true, data: newMember });
     } catch (err) {
       next(err);
@@ -80,8 +82,12 @@ class MemberController {
   };
 
   public logout = (req: Request, res: Response) => {
-    req.session.destroy(() => {
-      res.redirect("/");
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ success: false, message: Message.SOMETHING_WENT_WRONG });
+      }
+      res.clearCookie("connect.sid");
+      res.status(HttpCode.OK).json({ success: true });
     });
   };
 

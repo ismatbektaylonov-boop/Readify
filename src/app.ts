@@ -5,16 +5,18 @@ import session from 'express-session'
 import mongoose from 'mongoose'
 import path from 'path'
 
+// Ensure ts-node loads the express-session module augmentation in development.
 import ErrorLog, { HttpCode, Message } from './libs/Errors'
+import './libs/types/common'
 import router from './router'
 import adminRouter from './router.admin'
 
 dotenv.config()
 
 const PORT = process.env.PORT || 3000
-const MONGO_URL =
-	process.env.MONGO_URL || 'mongodb://localhost:27017/my_library_db'
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/Library'
 const SESSION_SECRET = process.env.SESSION_SECRET || 'library-secret'
+const isProduction = process.env.NODE_ENV === 'production'
 
 const app = express()
 
@@ -28,13 +30,20 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')))
 
+if (isProduction) app.set('trust proxy', 1)
+
 app.use(
 	session({
 		secret: SESSION_SECRET,
 		resave: false,
 		saveUninitialized: false,
 		store: MongoStore.create({ mongoUrl: MONGO_URL }),
-		cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 kun
+		cookie: {
+			maxAge: 1000 * 60 * 60 * 24,
+			httpOnly: true,
+			sameSite: 'lax',
+			secure: isProduction,
+		},
 	}),
 )
 
@@ -65,6 +74,11 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 	if (err instanceof ErrorLog) {
 		return res.status(err.code).json({ success: false, message: err.message })
 	}
+	if (err?.name === 'MulterError' || err?.name === 'CastError') {
+		return res
+			.status(HttpCode.BAD_REQUEST)
+			.json({ success: false, message: err.message })
+	}
 	res
 		.status(HttpCode.INTERNAL_SERVER_ERROR)
 		.json({ success: false, message: Message.SOMETHING_WENT_WRONG })
@@ -72,7 +86,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 /* ---------- DATABASE + SERVER START ---------- */
 mongoose
-	.connect(MONGO_URL)
+	.connect(MONGO_URL, { serverSelectionTimeoutMS: 10000 })
 	.then(() => {
 		console.log("✅ MongoDB ulanishi muvaffaqiyatli o'rnatildi")
 		app.listen(PORT, () => {

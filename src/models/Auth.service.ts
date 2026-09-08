@@ -13,16 +13,21 @@ class AuthService {
 
   /** Yangi foydalanuvchini ro'yxatdan o'tkazish */
   public async signup(input: SignupInput): Promise<Member> {
+    const memberNick = input.memberNick?.trim();
+    const memberPhone = input.memberPhone?.trim();
+    if (!memberNick || !memberPhone || !input.memberPassword || input.memberPassword.length < 8) {
+      throw new ErrorLog(HttpCode.BAD_REQUEST, "Login, telefon raqami va kamida 8 belgili parol kiriting.");
+    }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(input.memberPassword, salt);
 
     try {
       const newMember = await this.memberModel.create({
-        memberNick: input.memberNick,
-        memberPhone: input.memberPhone,
+        memberNick,
+        memberPhone,
         memberPassword: hashedPassword,
         memberFullName: input.memberFullName ?? "",
-        memberType: input.memberType ?? MemberType.USER,
+        memberType: MemberType.USER,
       });
       const result = newMember.toObject();
       delete (result as any).memberPassword;

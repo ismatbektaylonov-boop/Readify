@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="640" viewBox="0 0 480 640" role="img" aria-label="Kitob muqovasi mavjud emas">
+  <rect width="480" height="640" fill="#1f4b6e"/>
+  <rect x="80" y="105" width="320" height="430" rx="12" fill="#f4e4ba"/>
+  <path d="M240 155v330M125 210h90M265 210h90" stroke="#1f4b6e" stroke-width="16" stroke-linecap="round"/>
+  <text x="240" y="575" text-anchor="middle" fill="#fff" font-family="sans-serif" font-size="26">MyLibrary</text>
+</svg>

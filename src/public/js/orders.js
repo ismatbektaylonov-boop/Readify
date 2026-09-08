@@ -32,9 +32,9 @@ $(function () {
     orders.forEach(function (o) {
       $list.append(`
         <div class="order-card">
-          <img src="${o.productImage}" alt="${o.productName}" />
+          <img src="${escapeHtml(o.productImage)}" alt="${escapeHtml(o.productName)}" />
           <div class="info">
-            <h3>${o.productName}</h3>
+            <h3>${escapeHtml(o.productName)}</h3>
             <p>Soni: ${o.itemQuantity} | Summasi: ${o.orderTotal} so'm</p>
             <p>${renderStatusTag(o.orderStatus)}</p>
           </div>
@@ -72,8 +72,8 @@ $(function () {
 
       $tbody.append(`
         <tr data-id="${o._id}">
-          <td>${o.productName}</td>
-          <td>${memberInfo}</td>
+          <td>${escapeHtml(o.productName)}</td>
+          <td>${escapeHtml(memberInfo)}</td>
           <td>${o.itemQuantity}</td>
           <td>${o.orderTotal} so'm</td>
           <td>${renderStatusTag(o.orderStatus)}</td>

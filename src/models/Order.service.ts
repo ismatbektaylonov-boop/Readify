@@ -17,6 +17,9 @@ class OrderService {
   /* ==================== ADMIN: PRODUCT (BOOK) CRUD ==================== */
 
   public async createProduct(input: ProductInput): Promise<Product> {
+    if (!input.productName?.trim() || !input.productAuthor?.trim() || !Number.isFinite(input.productPrice) || input.productPrice < 0 || !Number.isInteger(input.productStock) || input.productStock < 0) {
+      throw new ErrorLog(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+    }
     try {
       return await this.productModel.create(input);
     } catch (err) {
@@ -29,14 +32,21 @@ class OrderService {
   }
 
   public async updateProduct(productId: string, input: Partial<ProductInput>): Promise<Product> {
+    if ((input.productPrice !== undefined && (!Number.isFinite(input.productPrice) || input.productPrice < 0)) ||
+        (input.productStock !== undefined && (!Number.isInteger(input.productStock) || input.productStock < 0))) {
+      throw new ErrorLog(HttpCode.BAD_REQUEST, Message.UPDATE_FAILED);
+    }
     const updated = await this.productModel
-      .findByIdAndUpdate(productId, input, { new: true })
+      .findByIdAndUpdate(productId, input, { new: true, runValidators: true })
       .exec();
     if (!updated) throw new ErrorLog(HttpCode.NOT_FOUND, Message.PRODUCT_NOT_FOUND);
     return updated;
   }
 
   public async changeProductStatus(productId: string, status: ProductStatus): Promise<Product> {
+    if (!Object.values(ProductStatus).includes(status)) {
+      throw new ErrorLog(HttpCode.BAD_REQUEST, Message.UPDATE_FAILED);
+    }
     const updated = await this.productModel
       .findByIdAndUpdate(productId, { productStatus: status }, { new: true })
       .exec();
@@ -55,12 +65,24 @@ class OrderService {
   /* ==================== USER: RENT REQUEST (ORDER) ==================== */
 
   public async createOrder(memberId: string, input: OrderItemInput): Promise<Order> {
+    if (!input.productId || !Number.isInteger(input.itemQuantity) || input.itemQuantity < 1) {
+      throw new ErrorLog(HttpCode.BAD_REQUEST, Message.NOT_ALLOWED_REQUEST);
+    }
     const product = await this.productModel.findById(input.productId).exec();
     if (!product || product.productStatus !== ProductStatus.PROCESS) {
       throw new ErrorLog(HttpCode.NOT_FOUND, Message.PRODUCT_NOT_FOUND);
     }
     if (product.productStock < input.itemQuantity) {
       throw new ErrorLog(HttpCode.BAD_REQUEST, Message.OUT_OF_STOCK);
+    }
+
+    const existingOrder = await this.orderModel.findOne({
+      memberId,
+      productId: product._id,
+      orderStatus: { $in: [OrderStatus.PENDING, OrderStatus.APPROVE] },
+    }).exec();
+    if (existingOrder) {
+      throw new ErrorLog(HttpCode.CONFLICT, "Bu kitob uchun faol so'rovingiz mavjud.");
     }
 
     const newOrder = await this.orderModel.create({

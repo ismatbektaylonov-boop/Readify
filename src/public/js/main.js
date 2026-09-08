@@ -21,6 +21,13 @@ function showError(selector, message) {
   el.style.display = "block";
 }
 
+/** Escape user-controlled values before placing them in an HTML template. */
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>'\"]/g, function (character) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character];
+  });
+}
+
 $(function () {
   $("#logoutBtn").on("click", function (e) {
     e.preventDefault();

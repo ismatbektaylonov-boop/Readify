@@ -38,7 +38,7 @@ class AdminController {
     try {
       assertAdmin(req);
       const file = req.file;
-      const productImage = file ? getProductImagePath(file.filename) : "/img/default-book.png";
+      const productImage = file ? getProductImagePath(file.filename) : "/img/default-book.svg";
 
       const newProduct = await orderService.createProduct({
         productName: req.body.productName,
@@ -72,8 +72,8 @@ class AdminController {
       const file = req.file;
       const updateData: Record<string, any> = { ...req.body };
       if (file) updateData.productImage = getProductImagePath(file.filename);
-      if (updateData.productPrice) updateData.productPrice = Number(updateData.productPrice);
-      if (updateData.productStock) updateData.productStock = Number(updateData.productStock);
+      if (updateData.productPrice !== undefined) updateData.productPrice = Number(updateData.productPrice);
+      if (updateData.productStock !== undefined) updateData.productStock = Number(updateData.productStock);
 
       const updated = await orderService.updateProduct(req.params.id, updateData);
       res.status(HttpCode.OK).json({ success: true, data: updated });

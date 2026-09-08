@@ -1,35 +1,36 @@
 {
-  "name": "my-library-project",
-  "version": "1.0.0",
-  "description": "Library Management System - Kutubxona va kitob ijara tizimi",
-  "main": "dist/app.js",
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/app.js",
-    "dev": "nodemon --watch src -e ts --exec ts-node src/app.ts"
-  },
-  "dependencies": {
-    "axios": "^1.7.7",
-    "bcryptjs": "^2.4.3",
-    "connect-mongo": "^5.1.0",
-    "dotenv": "^16.4.5",
-    "ejs": "^3.1.10",
-    "express": "^4.21.0",
-    "express-session": "^1.18.0",
-    "mongoose": "^8.6.0",
-    "multer": "^1.4.5-lts.1"
-  },
-  "devDependencies": {
-    "@types/bcryptjs": "^2.4.6",
-    "@types/express": "^4.17.21",
-    "@types/express-session": "^1.18.0",
-    "@types/multer": "^1.4.11",
-    "@types/node": "^22.5.0",
-    "nodemon": "^3.1.4",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+	"name": "my-library-project",
+	"version": "1.0.0",
+	"description": "Library Management System - Kutubxona va kitob ijara tizimi",
+	"main": "dist/app.js",
+	"scripts": {
+		"build": "tsc",
+		"start": "node dist/app.js",
+		"start:dev": "nodemon --watch src -e ts --exec ts-node src/app.ts",
+		"seed:admin": "ts-node scripts/createAdmin.ts"
+	},
+	"dependencies": {
+		"axios": "^1.7.7",
+		"bcryptjs": "^2.4.3",
+		"connect-mongo": "^5.1.0",
+		"dotenv": "^16.4.5",
+		"ejs": "^3.1.10",
+		"express": "^4.21.0",
+		"express-session": "^1.18.0",
+		"mongoose": "^8.6.0",
+		"multer": "^1.4.5-lts.1"
+	},
+	"devDependencies": {
+		"@types/bcryptjs": "^2.4.6",
+		"@types/express": "^4.17.21",
+		"@types/express-session": "^1.18.0",
+		"@types/multer": "^1.4.11",
+		"@types/node": "^22.5.0",
+		"nodemon": "^3.1.4",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.5.4"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
 }

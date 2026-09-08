@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import OrderService from "../models/Order.service";
 import ErrorLog, { HttpCode, Message } from "../libs/Errors";
 import { OrderStatus } from "../libs/enums/order.enum";
+import { MemberType } from "../libs/enums/member.enum";
 
 const orderService = new OrderService();
 
@@ -11,6 +12,9 @@ class OrderController {
     try {
       if (!req.session.member) {
         throw new ErrorLog(HttpCode.UNAUTHORIZED, Message.NOT_AUTHENTICATED);
+      }
+      if (req.session.member.memberType !== MemberType.USER) {
+        throw new ErrorLog(HttpCode.FORBIDDEN, Message.ONLY_SPECIFIC_ROLE_APPLY);
       }
       const memberId = String(req.session.member._id);
       const { productId, itemQuantity } = req.body;
