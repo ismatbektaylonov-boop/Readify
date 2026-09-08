@@ -1,4 +1,4 @@
-# 📚 My Library Project — Kutubxona va Kitob Ijara Tizimi
+# My Library Project — Kutubxona va Kitob Ijara Tizimi
 
 Node.js + Express + TypeScript + MongoDB (Mongoose) + EJS asosida qurilgan,
 MVC + Service Layer arxitekturasiga ega to'liq kutubxona boshqaruv tizimi.
@@ -21,52 +21,3 @@ src/
 ├── public/                   → CSS / JS statik fayllar
 └── views/                    → EJS shablonlar
 ```
-
-## ⚙️ O'rnatish
-
-```bash
-npm install
-cp .env.example .env   # MONGO_URL, SESSION_SECRET ni sozlang
-npm run dev             # development (ts-node + nodemon)
-# yoki
-npm run build && npm start   # production
-```
-
-MongoDB lokal yoki Atlas'da ishga tushirilgan bo'lishi kerak.
-
-Never commit `.env`. Use a unique, long `SESSION_SECRET`; if credentials were
-shared or committed, rotate them in MongoDB Atlas before deploying.
-
-## 👤 Rollar
-
-- **USER** — kitoblar katalogini ko'radi, qidiradi, ijaraga so'rov yuboradi
-  (`PENDING`), o'z buyurtmalari tarixini ko'radi.
-- **ADMIN** — kitob qo'shadi/tahrirlaydi/o'chiradi, holatini o'zgartiradi
-  (`PROCESS` / `PAUSE` / `DELETE`), kelib tushgan so'rovlarni
-  `APPROVE` / `REJECT` qiladi va `RETURNED` deb belgilaydi.
-
-Public registration always creates a `USER`. Create the initial admin by
-updating a trusted account directly in the database (set `memberType: "ADMIN"`).
-
-## 🔌 Asosiy API yo'nalishlari
-
-| Method | Route                        | Tavsif                                  |
-| ------ | ---------------------------- | --------------------------------------- |
-| POST   | `/api/signup`                | Ro'yxatdan o'tish                       |
-| POST   | `/api/login`                 | Kirish                                  |
-| POST   | `/api/logout`                | Chiqish                                 |
-| GET    | `/api/products/:id`          | Bitta kitobni ko'rish                   |
-| POST   | `/api/orders`                | Ijaraga so'rov yuborish (USER)          |
-| GET    | `/api/orders/mine`           | O'z buyurtmalarim tarixi (USER)         |
-| POST   | `/admin/products`            | Yangi kitob qo'shish (ADMIN, multipart) |
-| PATCH  | `/admin/products/:id/status` | Kitob holatini o'zgartirish             |
-| DELETE | `/admin/products/:id`        | Kitobni o'chirish                       |
-| GET    | `/admin/orders`              | Barcha so'rovlar (ADMIN)                |
-| PATCH  | `/admin/orders/:id/approve`  | So'rovni tasdiqlash                     |
-| PATCH  | `/admin/orders/:id/reject`   | So'rovni rad etish                      |
-| PATCH  | `/admin/orders/:id/return`   | Kitob qaytarilganini belgilash          |
-
-## 📝 Eslatma
-
-The included `public/img/default-book.svg` is used when an admin does not
-upload a cover image.
