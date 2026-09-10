@@ -4,7 +4,7 @@
 	"description": "Library Management System - Kutubxona va kitob ijara tizimi",
 	"main": "dist/app.js",
 	"scripts": {
-		"build": "tsc",
+		"build": "tsc && node scripts/copy-assets.js",
 		"start": "node dist/app.js",
 		"start:dev": "nodemon --watch src -e ts --exec ts-node src/app.ts",
 		"seed:admin": "ts-node scripts/createAdmin.ts"

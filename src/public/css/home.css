@@ -1,185 +1,207 @@
-/* ===== Design tokens (home page) ===== */
-:root {
-	--indigo: #2563eb;
-	--indigo-deep: #1e3a8a;
-	--amber: #f59e0b;
-	--canvas: #f8fafc;
-	--surface: #ffffff;
-	--ink: #1e293b;
-	--muted: #64748b;
-}
-
-.app-main:has(.hero) {
-	padding-top: 0;
-}
-
-/* ===== Hero ===== */
-.hero {
-	display: grid;
-	grid-template-columns: 1.1fr 0.9fr;
-	gap: 40px;
-	align-items: center;
-	padding: 64px 0 56px;
-}
-
-.hero-copy h1 {
-	font-family: 'Fraunces', Georgia, serif;
-	font-weight: 500;
-	font-size: clamp(2.1rem, 4vw, 3.1rem);
-	line-height: 1.12;
-	letter-spacing: -0.01em;
-	color: var(--ink);
-}
-
-.hero-sub {
-	margin-top: 20px;
-	max-width: 42ch;
-	font-size: 1.05rem;
-	line-height: 1.6;
-	color: var(--muted);
-}
-
-.btn-hero {
-	display: inline-block;
-	margin-top: 28px;
-	padding: 13px 26px;
-	background: var(--indigo);
-	color: #fff;
-	font-weight: 600;
-	font-size: 0.98rem;
-	border-radius: 8px;
-	transition: background 0.18s ease;
-}
-.btn-hero:hover {
-	background: var(--indigo-deep);
-}
-
-/* ---- Hero shelf visual: staggered book covers on an amber ledge ---- */
-.hero-shelf {
+.home-container {
+	min-height: 100vh;
+	overflow: hidden;
+	padding: 28px 5vw 64px;
 	position: relative;
-	height: 320px;
+	color: #f4f6fb;
+	background:
+		radial-gradient(
+			circle at 12% 10%,
+			rgba(245, 158, 11, 0.28),
+			transparent 32%
+		),
+		linear-gradient(135deg, #0b1224 0%, #101a34 48%, #0c1220 100%);
 }
 
-.shelf-books {
-	position: relative;
-	height: 280px;
-}
-
-.shelf-cover {
+.home-particles {
+	inset: 0;
+	pointer-events: none;
 	position: absolute;
-	bottom: 0;
-	width: 128px;
-	height: 188px;
-	object-fit: cover;
-	border-radius: 3px 6px 6px 3px;
-	box-shadow: -6px 10px 22px rgba(30, 41, 59, 0.18);
-	background: #e2e8f0;
+}
+.home-particles canvas {
+	display: block;
+	height: 100%;
+	width: 100%;
 }
 
-.shelf-cover-0 {
-	left: 4%;
+.home-container .navigation-menu {
+	position: relative;
+	z-index: 1;
+	margin-bottom: clamp(40px, 8vh, 90px);
+}
+.home-container .nav-link {
+	color: #cbd5e1;
+}
+.home-container .nav-link:hover,
+.home-container .nav-link.active {
+	color: #fff;
+}
+
+.home-content {
+	display: grid;
+	grid-template-columns: minmax(280px, 0.95fr) minmax(320px, 1.05fr);
+	gap: clamp(36px, 7vw, 100px);
+	align-items: center;
+	width: min(1160px, 100%);
+	margin: clamp(10px, 5vh, 60px) auto 0;
+	position: relative;
+	z-index: 1;
+}
+
+.home-intro {
+	max-width: 470px;
+}
+
+.home-kicker {
+	margin: 0 0 16px;
+	color: var(--amber);
+	font-family: 'IBM Plex Mono', monospace;
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.24em;
+}
+
+.home-intro h1 {
+	margin: 0;
+	font-family: 'Fraunces', Georgia, serif;
+	font-size: clamp(2.5rem, 5vw, 4.4rem);
+	font-weight: 500;
+	line-height: 1.04;
+	letter-spacing: -0.01em;
+}
+
+.home-description {
+	max-width: 390px;
+	margin: 22px 0 30px;
+	color: #cbd5e1;
+	font-size: 1.05rem;
+	line-height: 1.7;
+}
+
+.home-cta {
+	display: inline-block;
+	padding: 13px 24px;
+	border: 1px solid var(--amber);
+	border-radius: 6px;
+	color: #fff;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	transition:
+		background-color 160ms ease,
+		color 160ms ease;
+}
+.home-cta:hover {
+	color: #1a1204;
+	background: var(--amber);
+}
+
+.home-stats {
+	display: flex;
+	gap: 30px;
+	margin-top: 40px;
+}
+.home-stat {
+	display: flex;
+	flex-direction: column;
+}
+.home-stat strong {
+	font-family: 'Fraunces', Georgia, serif;
+	font-size: 1.7rem;
+	color: #fff;
+}
+.home-stat span {
+	color: #94a3b8;
+	font-size: 0.8rem;
+	margin-top: 2px;
+}
+
+/* ---- Hero visual: staggered book covers ---- */
+.library-hero-frame {
+	overflow: hidden;
+	position: relative;
+	min-height: 340px;
+	border: 1px solid rgba(245, 158, 11, 0.22);
+	border-radius: 20px;
+	box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
+	background: linear-gradient(160deg, rgba(255, 255, 255, 0.03), transparent);
+}
+
+.library-hero-shelf {
+	position: relative;
+	height: 100%;
+	min-height: 340px;
+}
+
+.library-hero-cover {
+	position: absolute;
+	bottom: 24px;
+	width: 30%;
+	max-width: 180px;
+	aspect-ratio: 2 / 3;
+	object-fit: cover;
+	border-radius: 3px 8px 8px 3px;
+	box-shadow: -8px 14px 26px rgba(0, 0, 0, 0.5);
+	background: #263049;
+}
+
+.cover-0 {
+	left: 3%;
 	transform: rotate(-6deg);
 	z-index: 1;
 }
-.shelf-cover-1 {
+.cover-1 {
 	left: 26%;
-	transform: rotate(3deg) translateY(-6px);
+	transform: rotate(3deg) translateY(-14px);
 	z-index: 2;
 }
-.shelf-cover-2 {
-	left: 48%;
+.cover-2 {
+	left: 49%;
 	transform: rotate(-3deg);
 	z-index: 3;
-	height: 200px;
+	bottom: 34px;
 }
-.shelf-cover-3 {
-	left: 70%;
-	transform: rotate(7deg) translateY(-4px);
+.cover-3 {
+	left: 71%;
+	transform: rotate(7deg) translateY(-8px);
 	z-index: 2;
 }
 
-.shelf-ledge {
-	height: 10px;
-	background: var(--amber);
-	border-radius: 3px;
-	box-shadow: 0 6px 14px rgba(245, 158, 11, 0.35);
-}
-
-/* ===== Stats strip ===== */
-.stats-strip {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 36px;
-	padding: 28px 0;
-	border-top: 1px solid #e2e8f0;
-	border-bottom: 1px solid #e2e8f0;
-}
-
-.stat {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
-}
-
-.stat-number {
-	font-family: 'Fraunces', Georgia, serif;
-	font-size: 1.9rem;
-	font-weight: 500;
-	color: var(--indigo);
-}
-
-.stat-label {
-	margin-top: 2px;
-	font-size: 0.88rem;
-	color: var(--muted);
-}
-
-.stat-divider {
-	width: 1px;
-	height: 38px;
-	background: #e2e8f0;
-}
-
-/* ===== Arrivals (bookshelf strip) ===== */
+/* ===== Arrivals section (paper, below dark hero) ===== */
 .arrivals {
-	padding: 56px 0 20px;
+	position: relative;
+	z-index: 1;
+	width: min(1160px, 100%);
+	margin: clamp(56px, 8vh, 90px) auto 0;
 }
 
 .arrivals-head {
-	display: flex;
-	align-items: baseline;
-	justify-content: space-between;
-	margin-bottom: 24px;
+	margin-bottom: 22px;
+	position: relative;
 }
-
 .arrivals-head h2 {
+	margin: 0;
 	font-family: 'Fraunces', Georgia, serif;
 	font-weight: 500;
-	font-size: 1.5rem;
-	color: var(--ink);
+	font-size: 1.7rem;
+	color: #fff;
 }
-
 .arrivals-link {
-	font-size: 0.92rem;
-	font-weight: 600;
-	color: var(--indigo);
+	position: absolute;
+	right: 0;
+	top: 4px;
+	font-size: 0.85rem;
+	font-weight: 700;
+	color: var(--amber);
 }
 .arrivals-link:hover {
-	color: var(--indigo-deep);
-}
-
-.arrivals-shelf {
-	position: relative;
+	color: #fff;
 }
 
 .arrivals-row {
 	display: flex;
-	gap: 26px;
+	gap: 24px;
 	overflow-x: auto;
-	padding: 6px 4px 28px;
-	scrollbar-width: thin;
+	padding: 4px 2px 20px;
 }
 
 .arrival-book {
@@ -189,58 +211,50 @@
 	flex-direction: column;
 	gap: 6px;
 }
-
 .arrival-book img {
 	width: 140px;
 	height: 200px;
 	object-fit: cover;
-	border-radius: 3px 6px 6px 3px;
-	background: #e2e8f0;
-	box-shadow: 0 10px 18px rgba(30, 41, 59, 0.14);
+	border-radius: 3px 8px 8px 3px;
+	background: #263049;
+	box-shadow: 0 10px 18px rgba(0, 0, 0, 0.35);
 	transition: transform 0.18s ease;
 }
 .arrival-book:hover img {
 	transform: translateY(-4px);
 }
-
 .arrival-title {
 	font-size: 0.92rem;
 	font-weight: 600;
-	color: var(--ink);
+	color: #fff;
 	line-height: 1.3;
 }
-
 .arrival-author {
-	font-size: 0.82rem;
-	color: var(--muted);
+	font-size: 0.8rem;
+	color: #94a3b8;
 }
-
-.arrivals-ledge {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 8px;
-	height: 8px;
-	background: var(--amber);
-	border-radius: 3px;
-	opacity: 0.85;
-}
-
 .empty-note {
-	color: var(--muted);
+	color: #94a3b8;
 	padding: 20px 0;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 820px) {
-	.hero {
+@media (max-width: 760px) {
+	.home-container {
+		padding: 20px 20px 48px;
+	}
+	.home-content {
 		grid-template-columns: 1fr;
+		margin-top: 48px;
 	}
-	.hero-shelf {
-		height: 260px;
+	.home-intro {
+		max-width: none;
 	}
-	.stats-strip {
-		gap: 22px;
-		flex-wrap: wrap;
+	.library-hero-frame {
+		min-height: 280px;
+	}
+	.arrivals-link {
+		position: static;
+		display: inline-block;
+		margin-top: 6px;
 	}
 }

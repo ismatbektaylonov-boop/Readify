@@ -1,78 +1,178 @@
-<%- include("includes/header", { pageTitle: "Kitoblar | MyLibrary", extraCss: "products", member }) %>
+<%- include("includes/header", { pageTitle: "Kitoblar | MyLibrary" , extraCss: "products" }) %>
 
-<section class="products-page">
-  <h1>Kitoblar katalogi</h1>
+  <main class="products-container">
+    <%- include("includes/nav", { member, active: "products" }) %>
 
-  <form id="searchForm" class="search-bar">
-    <input type="text" name="search" id="searchInput" placeholder="Kitob nomi yoki muallif bo'yicha qidirish..." value="<%= search %>" />
-    <select name="collection" id="collectionSelect">
-      <option value="">Barcha kategoriyalar</option>
-      <option value="FICTION" <%= collection === "FICTION" ? "selected" : "" %>>Badiiy</option>
-      <option value="SCIENCE" <%= collection === "SCIENCE" ? "selected" : "" %>>Ilmiy</option>
-      <option value="HISTORY" <%= collection === "HISTORY" ? "selected" : "" %>>Tarix</option>
-      <option value="BUSINESS" <%= collection === "BUSINESS" ? "selected" : "" %>>Biznes</option>
-      <option value="CHILDREN" <%= collection === "CHILDREN" ? "selected" : "" %>>Bolalar</option>
-      <option value="OTHER" <%= collection === "OTHER" ? "selected" : "" %>>Boshqa</option>
-    </select>
-    <button type="submit" class="btn btn-primary">Qidirish</button>
-  </form>
-
-  <% if (member && member.memberType === "ADMIN") { %>
-  <section class="admin-panel">
-    <h2>📖 Yangi kitob qo'shish (Admin)</h2>
-    <form id="createProductForm" class="admin-form" enctype="multipart/form-data">
-      <input type="text" name="productName" placeholder="Kitob nomi" required />
-      <input type="text" name="productAuthor" placeholder="Muallif" required />
-      <select name="productCollection" required>
-        <option value="FICTION">Badiiy</option>
-        <option value="SCIENCE">Ilmiy</option>
-        <option value="HISTORY">Tarix</option>
-        <option value="BUSINESS">Biznes</option>
-        <option value="CHILDREN">Bolalar</option>
-        <option value="OTHER">Boshqa</option>
-      </select>
-      <input type="number" name="productPrice" placeholder="Narxi" required min="0" />
-      <input type="number" name="productStock" placeholder="Nusxalar soni" required min="1" />
-      <textarea name="productDesc" placeholder="Tavsif"></textarea>
-      <input type="file" name="productImage" accept="image/*" />
-      <button type="submit" class="btn btn-primary">Qo'shish</button>
-    </form>
-  </section>
-  <% } %>
-
-  <div id="bookGrid" class="book-grid">
-    <% products.forEach(function(p) { %>
-      <div class="book-card" data-id="<%= p._id %>" data-status="<%= p.productStatus %>">
-        <img src="<%= p.productImage %>" alt="<%= p.productName %>" />
-        <h3><%= p.productName %></h3>
-        <p class="author"><%= p.productAuthor %></p>
-        <p class="collection"><%= p.productCollection %></p>
-        <p class="price"><%= p.productPrice %> so'm</p>
-        <p class="stock">Mavjud nusxalar: <%= p.productStock %></p>
-
-        <% if (member && member.memberType === "USER") { %>
-          <button class="btn btn-primary rent-btn" data-id="<%= p._id %>" <%= p.productStock < 1 ? "disabled" : "" %>>
-            <%= p.productStock < 1 ? "Mavjud emas" : "Ijaraga olish" %>
-          </button>
-        <% } %>
-
-        <% if (member && member.memberType === "ADMIN") { %>
-          <div class="admin-actions">
-            <button class="btn btn-small status-btn" data-id="<%= p._id %>" data-status="PROCESS">Faollashtirish</button>
-            <button class="btn btn-small status-btn" data-id="<%= p._id %>" data-status="PAUSE">To'xtatish</button>
-            <button class="btn btn-small btn-danger delete-btn" data-id="<%= p._id %>">O'chirish</button>
+      <section class="products-dashboard" aria-labelledby="products-title">
+        <header class="catalog-header">
+          <div>
+            <p class="eyebrow">MY LIBRARY KATALOGI</p>
+            <h1 id="products-title">Javonlarni varaqlang.</h1>
+            <p class="catalog-subtitle">Har bir nom, muallif va mavjud nusxalar sonini bitta joyda kuzating.</p>
           </div>
-        <% } %>
-      </div>
-    <% }); %>
-    <% if (products.length === 0) { %>
-      <p>Hech qanday kitob topilmadi.</p>
-    <% } %>
-  </div>
-</section>
+          <div class="catalog-actions">
+            <span class="product-count">
+              <%= products.length %>
+                <%= products.length===1 ? "nom" : "nom" %>
+            </span>
+            <% if (member && member.memberType==="ADMIN" ) { %>
+              <button class="primary-action" id="process-btn" type="button" aria-expanded="false"
+                aria-controls="product-form-panel">
+                <span aria-hidden="true">+</span> Kitob qo'shish
+              </button>
+              <% } %>
+          </div>
+        </header>
 
-</main>
-<script src="/js/main.js"></script>
-<script src="/js/products.js"></script>
-</body>
-</html>
+        <form id="searchForm" class="search-bar">
+          <input type="text" name="search" id="searchInput" placeholder="Kitob nomi yoki muallif bo'yicha qidirish..."
+            value="<%= search %>" />
+          <select name="collection" id="collectionSelect">
+            <option value="">Barcha kategoriyalar</option>
+            <option value="FICTION" <%=collection==="FICTION" ? "selected" : "" %>>Badiiy</option>
+            <option value="SCIENCE" <%=collection==="SCIENCE" ? "selected" : "" %>>Ilmiy</option>
+            <option value="HISTORY" <%=collection==="HISTORY" ? "selected" : "" %>>Tarix</option>
+            <option value="BUSINESS" <%=collection==="BUSINESS" ? "selected" : "" %>>Biznes</option>
+            <option value="CHILDREN" <%=collection==="CHILDREN" ? "selected" : "" %>>Bolalar</option>
+            <option value="OTHER" <%=collection==="OTHER" ? "selected" : "" %>>Boshqa</option>
+          </select>
+          <button type="submit" class="secondary-action">Qidirish</button>
+        </form>
+
+        <% if (member && member.memberType==="ADMIN" ) { %>
+          <section class="product-form-panel" id="product-form-panel" hidden>
+            <div class="form-panel-heading">
+              <h2>Yangi kitob qo'shish</h2>
+              <button class="close-form" id="close-form-btn" type="button" aria-label="Yopish">&times;</button>
+            </div>
+            <form id="createProductForm" enctype="multipart/form-data">
+              <div class="form-grid form-grid--name">
+                <label class="form-field">Kitob nomi
+                  <input type="text" name="productName" required />
+                </label>
+              </div>
+              <div class="form-grid">
+                <label class="form-field">Muallif
+                  <input type="text" name="productAuthor" required />
+                </label>
+                <label class="form-field">Kategoriya
+                  <select name="productCollection" required>
+                    <option value="FICTION">Badiiy</option>
+                    <option value="SCIENCE">Ilmiy</option>
+                    <option value="HISTORY">Tarix</option>
+                    <option value="BUSINESS">Biznes</option>
+                    <option value="CHILDREN">Bolalar</option>
+                    <option value="OTHER">Boshqa</option>
+                  </select>
+                </label>
+              </div>
+              <div class="form-grid">
+                <label class="form-field">Narxi
+                  <input type="number" name="productPrice" min="0" required />
+                </label>
+                <label class="form-field">Nusxalar soni
+                  <input type="number" name="productStock" min="1" required />
+                </label>
+              </div>
+              <label class="form-field">Tavsif
+                <textarea name="productDesc" placeholder="Qisqacha tavsif..."></textarea>
+              </label>
+              <fieldset class="product-images-fieldset">
+                <legend>Muqova rasmi</legend>
+                <label class="upload-slot" id="upload-slot">
+                  <input type="file" name="productImage" accept="image/*" required />
+                  <span class="upload-slot-icon">+</span>
+                  <span class="upload-slot-name">Rasm tanlang</span>
+                </label>
+              </fieldset>
+              <div class="form-actions">
+                <button type="submit" class="primary-action">Kitobni qo'shish</button>
+              </div>
+            </form>
+          </section>
+          <% } %>
+
+            <% if (products.length===0) { %>
+              <section class="empty-catalog" aria-label="Bo'sh katalog">
+                <p class="eyebrow">KATALOG BO'SH</p>
+                <h2>Hech qanday kitob topilmadi.</h2>
+                <p>Qidiruv shartlarini o'zgartiring yoki keyinroq qayta urinib ko'ring.</p>
+              </section>
+              <% } else { %>
+                <section class="product-grid" id="bookGrid" aria-label="Kitoblar katalogi">
+                  <% products.forEach(function(p) { %>
+                    <article class="product-card" data-id="<%= p._id %>" data-status="<%= p.productStatus %>">
+                      <div
+                        class="product-visual product-visual--<%= p.productCollection.toLowerCase() %> product-visual--with-image">
+                        <img class="product-cover-image" src="<%= p.productImage %>" alt="<%= p.productName %>"
+                          loading="lazy" />
+                        <span>
+                          <%= p.productCollection %>
+                        </span>
+                      </div>
+                      <div class="product-card-body">
+                        <div class="product-card-heading">
+                          <div>
+                            <p class="product-collection">
+                              <%= p.productCollection.charAt(0) + p.productCollection.slice(1).toLowerCase() %>
+                            </p>
+                            <h2>
+                              <%= p.productName %>
+                            </h2>
+                          </div>
+                          <span class="product-price">
+                            <%= p.productPrice %> so'm
+                          </span>
+                        </div>
+                        <p class="product-collection" style="margin-top:-2px;">Muallif: <%= p.productAuthor %>
+                        </p>
+                        <div class="product-meta">
+                          <span>Mavjud <strong>
+                              <%= p.productStock %>
+                            </strong></span>
+                          <span>Ko'rishlar <strong>
+                              <%= p.productViews %>
+                            </strong></span>
+                        </div>
+                        <% if (p.productDesc) { %>
+                          <p class="product-description">
+                            <%= p.productDesc %>
+                          </p>
+                          <% } %>
+
+                            <div class="product-card-footer">
+                              <% if (member && member.memberType==="USER" ) { %>
+                                <button class="primary-action rent-btn" data-id="<%= p._id %>" <%=p.productStock < 1
+                                  ? "disabled" : "" %>>
+                                  <%= p.productStock < 1 ? "Mavjud emas" : "Ijaraga olish" %>
+                                </button>
+                                <% } %>
+
+                                  <% if (member && member.memberType==="ADMIN" ) { %>
+                                    <div class="admin-actions">
+                                      <select
+                                        class="new-product-status status-select <%= p.productStatus === 'PAUSE' ? 'status--deleted' : 'status--processing' %>"
+                                        data-id="<%= p._id %>">
+                                        <option value="PROCESS" <%=p.productStatus==="PROCESS" ? "selected" : "" %>>Faol
+                                        </option>
+                                        <option value="PAUSE" <%=p.productStatus==="PAUSE" ? "selected" : "" %>
+                                          >To'xtatilgan</option>
+                                      </select>
+                                      <button class="secondary-action delete-btn"
+                                        data-id="<%= p._id %>">O'chirish</button>
+                                    </div>
+                                    <% } %>
+                            </div>
+                      </div>
+                    </article>
+                    <% }); %>
+                </section>
+                <% } %>
+      </section>
+  </main>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/products.js"></script>
+  </body>
+
+  </html>

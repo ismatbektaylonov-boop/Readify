@@ -1,13 +1,212 @@
-.orders-page h1 { margin-bottom: 6px; }
-.orders-list { display: grid; gap: 14px; margin-top: 16px; }
-.order-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+.orders-container {
+	background: var(--paper);
+	color: var(--ink);
+	min-height: 100vh;
+	padding: 28px 5vw 80px;
 }
-.order-card img { width: 70px; height: 90px; object-fit: cover; border-radius: 8px; }
-.order-card .info { flex: 1; }
+.orders-container .navigation-menu {
+	margin-bottom: clamp(42px, 7vw, 82px);
+}
+.orders-container .nav-link {
+	color: #4c5566;
+}
+.orders-container .nav-link:hover,
+.orders-container .nav-link.active {
+	color: var(--indigo);
+}
+
+.orders-dashboard {
+	margin: 0 auto;
+	width: min(1180px, 100%);
+}
+
+.orders-header {
+	align-items: flex-end;
+	display: flex;
+	gap: 24px;
+	justify-content: space-between;
+	margin-bottom: 28px;
+}
+.orders-header h1 {
+	font-family: 'Fraunces', Georgia, serif;
+	font-size: clamp(2.2rem, 5vw, 3.6rem);
+	font-weight: 500;
+	letter-spacing: -0.02em;
+	line-height: 1.02;
+	margin: 0;
+}
+.orders-header p {
+	color: var(--muted);
+	margin: 14px 0 0;
+	max-width: 480px;
+}
+.orders-header > span {
+	color: var(--muted);
+	white-space: nowrap;
+}
+
+.status-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 26px;
+}
+.status-filters a {
+	background: var(--surface);
+	border: 1px solid var(--line);
+	color: #4c5566;
+	font-size: 0.74rem;
+	font-weight: 700;
+	padding: 8px 13px;
+	border-radius: 20px;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+.status-filters a.active,
+.status-filters a:hover {
+	background: var(--ink);
+	border-color: var(--ink);
+	color: #fff;
+}
+
+.order-grid {
+	display: grid;
+	gap: 18px;
+}
+
+.order-card,
+.empty-orders {
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	box-shadow: 0 10px 25px rgba(30, 41, 59, 0.05);
+}
+.empty-orders {
+	padding: 60px;
+	text-align: center;
+	color: var(--muted);
+}
+.empty-orders h2 {
+	font-family: 'Fraunces', Georgia, serif;
+	margin: 0 0 8px;
+	color: var(--ink);
+}
+
+.order-card > header {
+	align-items: center;
+	border-bottom: 1px solid var(--line);
+	display: flex;
+	justify-content: space-between;
+	padding: 18px 22px;
+}
+.order-card header .order-book {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+}
+.order-card header img {
+	width: 46px;
+	height: 64px;
+	object-fit: cover;
+	border-radius: 4px;
+	background: var(--line);
+}
+.order-card header p {
+	font-family: 'Fraunces', Georgia, serif;
+	font-size: 1.1rem;
+	margin: 0;
+}
+.order-card time {
+	color: var(--muted);
+	font-size: 0.78rem;
+}
+
+.status {
+	font-size: 0.7rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	padding: 7px 11px;
+	border-radius: 20px;
+	text-transform: uppercase;
+}
+.status--pending {
+	background: #fef3c7;
+	color: #92400e;
+}
+.status--approve {
+	background: #d1fae5;
+	color: #065f46;
+}
+.status--reject {
+	background: #fee2e2;
+	color: #991b1b;
+}
+.status--returned {
+	background: #e0e7ff;
+	color: #3730a3;
+}
+
+.order-meta-row {
+	align-items: center;
+	background: #fbfbfa;
+	border-bottom: 1px solid var(--line);
+	display: flex;
+	gap: 24px;
+	padding: 14px 22px;
+}
+.order-meta-row span {
+	color: var(--muted);
+	font-size: 0.82rem;
+}
+.order-meta-row strong {
+	color: var(--ink);
+	font-family: 'Fraunces', Georgia, serif;
+}
+
+.order-card > footer {
+	align-items: center;
+	background: #fbfbfa;
+	border-top: 1px solid var(--line);
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	padding: 14px 22px;
+}
+
+.advance-order {
+	background: var(--ink);
+	border: 0;
+	color: #fff;
+	cursor: pointer;
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	padding: 10px 16px;
+	border-radius: 4px;
+	text-transform: uppercase;
+}
+.advance-order.reject-btn {
+	background: transparent;
+	border: 1px solid #f59b93;
+	color: #b42318;
+}
+.advance-order:disabled {
+	cursor: wait;
+	opacity: 0.55;
+}
+
+@media (max-width: 650px) {
+	.orders-container {
+		padding: 20px 16px 48px;
+	}
+	.orders-header {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+	.order-card > header,
+	.order-meta-row,
+	.order-card > footer {
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+}
